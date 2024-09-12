@@ -1,0 +1,39 @@
+### https://samprafael.medium.com/por-trás-dos-sistemas-antifraude-detectando-e-prevenindo-atividades-suspeitas-dfadd2744041
+### https://www.sciencedirect.com/science/article/abs/pii/S0957417415008386
+
+# Importando bibliotecas necessárias
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# 1. Carregar e preparar os dados
+# Exemplo fictício de dataset de fraude
+# 'features.csv' contém as características da transação
+# 'labels.csv' contém as classes (fraude ou não)
+
+# Supondo que você tenha dois arquivos CSV, um com os dados de transações e outro com os rótulos de fraude (1 para fraude, 0 para normal)
+# Para este exemplo, vamos gerar dados fictícios
+data = pd.DataFrame({
+    'valor_transacao': [100, 200, 300, 150, 800, 120, 50, 600, 700, 350],
+    'hora_transacao': [1, 2, 3, 12, 22, 5, 4, 23, 11, 14],
+    'local_transacao': [1, 1, 0, 0, 1, 1, 0, 0, 1, 1]  # 1 para online, 0 para presencial
+})
+
+# Labels (0 = não fraudulento, 1 = fraudulento)
+labels = pd.Series([0, 1, 0, 0, 1, 0, 0, 1, 1, 0])
+
+# 2. Dividindo os dados em treino e teste
+X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.3, random_state=42)
+
+# 3. Treinar o modelo Random Forest
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+
+# 4. Fazer previsões
+y_pred = clf.predict(X_test)
+
+# 5. Avaliar o modelo
+print("Acurácia:", accuracy_score(y_test, y_pred))
+print("\nMatriz de confusão:\n", confusion_matrix(y_test, y_pred))
+print("\nRelatório de Classificação:\n", classification_report(y_test, y_pred))
